@@ -156,11 +156,12 @@ body.is-teacher .teacher-btn { background: var(--navy); color: var(--green); bor
 .nav-btn.ghost { background: transparent; }
 /* 강사 도구: 맨 윗줄 한 줄에 */
 .teacher-bar { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; min-width: 0; }
-.teacher-bar select { font: inherit; font-size: 14px; padding: 6px 8px; border-radius: 9px; border: 1px solid var(--lav2); background: #fff; color: var(--text); max-width: 170px; }
-.t-btn { border: 1px solid var(--lav2); background: #fff; border-radius: 9px; padding: 6px 12px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+.teacher-bar select { font: inherit; font-size: 14px; padding: 6px 8px; border-radius: 9px; border: 1px solid var(--lav2); background: #fff; color: var(--text); width: 160px; }
+.t-btn { border: 1px solid var(--lav2); background: #fff; border-radius: 9px; padding: 6px 0; width: 84px; text-align: center; font-weight: 700; font-size: 14px; white-space: nowrap; }
+#openAll { width: 108px; }
 .t-btn.run, .t-btn.go { background: var(--navy); color: var(--green); border-color: var(--navy); }
 .t-btn:disabled { opacity: .4; cursor: default; }
-.t-info { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.t-info { color: var(--muted); font-size: 13px; white-space: nowrap; width: 150px; overflow: hidden; text-overflow: ellipsis; }
 body.is-teacher .brand-sub, body.is-teacher .top-link { display: none; }
 body.is-teacher .conn { font-size: 0; padding: 6px; }
 body.is-teacher .conn::before { margin-right: 0; }

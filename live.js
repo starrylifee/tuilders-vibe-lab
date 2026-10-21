@@ -141,7 +141,6 @@ function renderTeacherBar() {
   const tabNow = tabOfSlide(mySlide);
   $("#practiceSel").innerHTML = TABS.slice(1).map((t, k) => `<option value="${t.id}" ${t.id === (live.practice || tabNow) ? "selected" : ""}>${k + 1}. ${esc(t.label)}</option>`).join("");
   $("#runBtn").textContent = live.running ? "강의 끝" : "강의 시작";
-  $("#startPractice").textContent = live.practice ? "실습 바꾸기" : "실습 시작";
   $("#endPractice").disabled = !live.practice;
   $("#openAll").textContent = live.open ? "전체 공개 끄기" : "전체 공개";
   $("#teacherInfo").textContent = !live.running ? "강의 전" : live.practice ? `강의 중 · 실습 ${TABS[TAB_IDX[live.practice]].label}` : "강의 중";
