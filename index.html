@@ -31,6 +31,14 @@
     <button type="button" data-view="deck" aria-pressed="false">교안</button>
     <button type="button" data-view="lab" aria-pressed="true">실습</button>
   </div>
+  <div class="teacher-bar" id="teacherBar" hidden>
+    <button type="button" class="t-btn run" id="runBtn">강의 시작</button>
+    <select id="practiceSel" aria-label="시작할 실습"></select>
+    <button type="button" class="t-btn go" id="startPractice">실습 시작</button>
+    <button type="button" class="t-btn" id="endPractice">실습 끝</button>
+    <button type="button" class="t-btn" id="openAll">전체 공개</button>
+    <span class="t-info" id="teacherInfo"></span>
+  </div>
   <div class="top-right">
     <span class="conn" id="conn">연결 중…</span>
     <button type="button" class="teacher-btn" id="teacherBtn">강사</button>
@@ -49,15 +57,6 @@
     <button type="button" class="nav-btn primary" id="nextSlide" aria-label="다음 장">→</button>
     <span class="follow" id="followState"></span>
     <button type="button" class="nav-btn ghost" id="fullBtn">전체 화면</button>
-  </div>
-  <div class="teacher-bar" id="teacherBar" hidden>
-    <span class="t-label">강사 도구</span>
-    <button type="button" class="nav-btn primary" id="runBtn">강의 시작</button>
-    <select id="practiceSel" aria-label="시작할 실습"></select>
-    <button type="button" class="nav-btn primary" id="startPractice">실습 시작</button>
-    <button type="button" class="nav-btn" id="endPractice">실습 끝</button>
-    <button type="button" class="nav-btn ghost" id="openAll">전체 공개</button>
-    <span class="t-info" id="teacherInfo"></span>
   </div>
 </section>
 

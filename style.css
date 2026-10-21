@@ -154,13 +154,16 @@ body.is-teacher .teacher-btn { background: var(--navy); color: var(--green); bor
 .link { background: none; border: 0; padding: 0; color: #4f63c9; text-decoration: underline; font-weight: 700; }
 .nav-btn:disabled { opacity: .35; cursor: default; }
 .nav-btn.ghost { background: transparent; }
-.teacher-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--navy); color: #fff; border-radius: 14px; padding: 10px 14px; flex: 0 0 auto; }
-.t-label { font-weight: 800; color: var(--green); font-size: 14px; }
-.teacher-bar select { font: inherit; font-size: 15px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--navy3); background: var(--navy2); color: #fff; }
-.teacher-bar .nav-btn { font-size: 15px; padding: 8px 14px; }
-.teacher-bar .nav-btn.primary { background: var(--green); color: var(--navy); border-color: var(--green); }
-.teacher-bar .nav-btn.ghost { color: #fff; border-color: var(--navy3); }
-.t-info { color: var(--sub); font-size: 14px; margin-left: auto; }
+/* 강사 도구: 맨 윗줄 한 줄에 */
+.teacher-bar { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; min-width: 0; }
+.teacher-bar select { font: inherit; font-size: 14px; padding: 6px 8px; border-radius: 9px; border: 1px solid var(--lav2); background: #fff; color: var(--text); max-width: 170px; }
+.t-btn { border: 1px solid var(--lav2); background: #fff; border-radius: 9px; padding: 6px 12px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+.t-btn.run, .t-btn.go { background: var(--navy); color: var(--green); border-color: var(--navy); }
+.t-btn:disabled { opacity: .4; cursor: default; }
+.t-info { color: var(--muted); font-size: 13px; white-space: nowrap; }
+body.is-teacher .brand-sub, body.is-teacher .top-link { display: none; }
+body.is-teacher .conn { font-size: 0; padding: 6px; }
+body.is-teacher .conn::before { margin-right: 0; }
 
 /* 잠긴 탭 */
 .tabs [role=tab].locked, .flow-card.locked { opacity: .55; }
