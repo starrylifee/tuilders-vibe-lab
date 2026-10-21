@@ -187,7 +187,7 @@ function applyLive(d) {
   if (prevPractice && !live.practice && view === "lab") endedNotice = true;
   if (live.practice) endedNotice = false;
   if (!isTeacher && current > maxTab()) current = 0;
-  if (view === "deck") renderDeck(); else showTab(current, false);
+  if (view === "deck") { renderDeck(); renderTabs(); } else showTab(current, false);
   renderAlarm();
 }
 function setConn(ok, msg) {
