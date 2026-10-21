@@ -46,7 +46,7 @@ const TABS = [
     id: "ready", label: "준비",
     html: `
       <h1>강의 전 준비</h1>
-      <p class="lead">설치는 <b>CLI 설치 안내</b> 페이지를 따라 하면 됩니다. 아래 세 가지가 되면 준비 끝입니다.</p>
+      <p class="lead">아래 세 가지가 되면 준비 끝입니다.</p>
       <div class="cards three">
         <div class="card"><span class="tag">1</span><h3>Node.js</h3><p>모두 설치합니다. <code>node --version</code>이 v22 이상이면 정상.</p></div>
         <div class="card"><span class="tag">2</span><h3>AI 코딩 도구 하나</h3><p>유료로 구독 중인 서비스의 도구를 고릅니다. Claude → Claude Code, ChatGPT → Codex, Google·구독 없음 → agy.</p></div>
@@ -288,7 +288,7 @@ function dockHTML(t) {
     <a class="site" href="${u}" target="_blank" rel="noopener"><span class="site-n">${esc(n)}</span><span class="site-u">${esc(u.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</span><span class="site-go">열기 ↗</span></a>`).join("")}</section>` : "";
   const clips = t.clips.length ? `<section><h2>복사 클립보드</h2>${t.clips.map(([label, text], i) => `
     <div class="clip"><div class="clip-h"><span>${esc(label)}</span><button class="copy" data-c="${i}" type="button">복사</button></div><pre class="clip-t">${esc(text)}</pre></div>`).join("")}</section>`
-    : `<section><h2>복사 클립보드</h2><p class="empty">이 탭은 복사할 것이 없습니다. 왼쪽 카드를 눌러 사례를 열어 보세요.</p></section>`;
+    : "";
   return sites + clips;
 }
 
