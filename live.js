@@ -49,11 +49,15 @@ const maxTab = () => (isTeacher || live.open ? TABS.length - 1 : !live.running ?
 const tabOfSlide = (n) => (SLIDES[n - 1] ? SLIDES[n - 1].tab : "ready");
 
 // ── 실습 화면 ──────────────────────────────────────
+const studentMax = () => (live.open ? TABS.length - 1 : live.running ? Math.max(0, live.unlocked || 0) : 0);
 function renderTabs() {
   $("#tabs").innerHTML = TABS.map((t, i) => {
     const locked = i > maxTab();
-    return `<button role="tab" data-i="${i}" aria-selected="${i === current}" tabindex="${i === current ? 0 : -1}" class="${locked ? "locked" : ""}">` +
-      `<span class="n">${i}</span>${esc(t.label)}${locked ? LOCK : ""}</button>`;
+    const closed = isTeacher && i > studentMax();
+    const cls = locked ? "locked" : closed ? "student-locked" : "";
+    const tip = closed ? ' title="수강자에게 아직 잠김 · 누르면 열립니다"' : "";
+    return `<button role="tab" data-i="${i}" aria-selected="${i === current}" tabindex="${i === current ? 0 : -1}" class="${cls}"${tip}>` +
+      `<span class="n">${i}</span>${esc(t.label)}${locked || closed ? LOCK : ""}</button>`;
   }).join("");
 }
 function dockHTML(t) {
@@ -70,6 +74,15 @@ function showTab(i, push = true) {
   }
   current = Math.max(0, Math.min(TABS.length - 1, i));
   const t = TABS[current];
+  if (isTeacher && push && current > studentMax()) {
+    if (live.running) {
+      live = { ...live, unlocked: current };
+      save({ unlocked: current });
+      toast(`수강자에게 ${current}. ${t.label} 탭을 열었습니다`);
+    } else {
+      toast("강의 시작을 누른 뒤에 수강자에게 열 수 있습니다");
+    }
+  }
   renderTabs();
   const prev = TABS[current - 1], next = TABS[current + 1];
   const nextOpen = next && current + 1 <= maxTab();
@@ -112,7 +125,7 @@ function goSlide(n) {
     const idx = TAB_IDX[tabOfSlide(n)] ?? 0;
     const unlocked = Math.max(live.unlocked || 0, idx);
     live = { ...live, slide: n, unlocked };
-    push({ slide: n, unlocked });
+    save({ slide: n, unlocked });
   } else {
     following = n === live.slide;
   }
@@ -133,7 +146,7 @@ function renderTeacherBar() {
   $("#openAll").textContent = live.open ? "전체 공개 끄기" : "전체 공개";
   $("#teacherInfo").textContent = !live.running ? "강의 전 · 수강자는 준비 탭만 봅니다" : live.practice ? `강의 중 · 지금 실습: ${TABS[TAB_IDX[live.practice]].label}` : "강의 중";
 }
-async function push(data) {
+async function save(data) {
   try {
     await setDoc(stateRef, { ...data, updatedAt: serverTimestamp() }, { merge: true });
   } catch (e) {
@@ -226,7 +239,7 @@ onAuthStateChanged(auth, async (user) => {
 $("#teacherBtn").addEventListener("click", async () => {
   if (auth.currentUser) {
     // 로그아웃도 강의 끝과 같다: 모든 탭을 잠그고 처음(준비)으로
-    if (isTeacher) await push({ ...IDLE });
+    if (isTeacher) await save({ ...IDLE });
     live = { ...IDLE };
     await signOut(auth);
     following = true; mySlide = 1; current = 0; endedNotice = false;
@@ -261,21 +274,21 @@ document.addEventListener("click", async (e) => {
   if (t.closest("#runBtn")) {
     if (live.running) {
       live = { ...IDLE }; mySlide = 1;
-      push({ ...IDLE }); renderDeck(); toast("강의를 끝냈습니다. 수강자는 준비 탭만 봅니다");
+      save({ ...IDLE }); renderDeck(); toast("강의를 끝냈습니다. 수강자는 준비 탭만 봅니다");
     } else {
       const idx = TAB_IDX[tabOfSlide(mySlide)] ?? 0;
       live = { ...live, running: true, slide: mySlide, unlocked: idx, practice: null };
-      push({ running: true, slide: mySlide, unlocked: idx, practice: null }); renderDeck(); toast("강의를 시작했습니다. 수강자 화면이 따라옵니다");
+      save({ running: true, slide: mySlide, unlocked: idx, practice: null }); renderDeck(); toast("강의를 시작했습니다. 수강자 화면이 따라옵니다");
     }
     return;
   }
   if (t.closest("#startPractice")) {
     const id = $("#practiceSel").value, idx = TAB_IDX[id];
     live = { ...live, running: true, practice: id, unlocked: Math.max(live.unlocked || 0, idx) };
-    push({ running: true, practice: id, unlocked: live.unlocked }); renderDeck(); toast("수강자 화면에 실습 알림을 띄웠습니다"); return;
+    save({ running: true, practice: id, unlocked: live.unlocked }); renderDeck(); toast("수강자 화면에 실습 알림을 띄웠습니다"); return;
   }
-  if (t.closest("#endPractice")) { live = { ...live, practice: null }; push({ practice: null }); renderDeck(); toast("실습을 끝냈습니다"); return; }
-  if (t.closest("#openAll")) { const open = !live.open; live = { ...live, open }; push({ open }); renderDeck(); toast(open ? "모든 장과 실습을 열었습니다" : "전체 공개를 껐습니다"); return; }
+  if (t.closest("#endPractice")) { live = { ...live, practice: null }; save({ practice: null }); renderDeck(); toast("실습을 끝냈습니다"); return; }
+  if (t.closest("#openAll")) { const open = !live.open; live = { ...live, open }; save({ open }); renderDeck(); toast(open ? "모든 장과 실습을 열었습니다" : "전체 공개를 껐습니다"); return; }
   if (t.closest("#fullBtn")) { const el = $("#stage"); if (!document.fullscreenElement) el.requestFullscreen?.(); else document.exitFullscreen?.(); return; }
   const btn = t.closest(".copy");
   if (btn) {
