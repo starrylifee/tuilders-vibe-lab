@@ -26,15 +26,50 @@
 </head>
 <body>
 <header class="top">
-  <div class="brand"><span class="prompt">&gt;_</span> Tuilders <span class="brand-sub">6강 실습 페이지 · 내 프로그램에 날개를</span></div>
-  <a class="top-link" href="https://tuilders-cli-setup.vercel.app" target="_blank" rel="noopener">CLI 설치 안내 ↗</a>
+  <div class="brand"><span class="prompt">&gt;_</span> Tuilders <span class="brand-sub">6강 · 내 프로그램에 날개를</span></div>
+  <div class="seg" role="group" aria-label="화면 고르기">
+    <button type="button" data-view="deck" aria-pressed="false">교안</button>
+    <button type="button" data-view="lab" aria-pressed="true">실습</button>
+  </div>
+  <div class="top-right">
+    <span class="conn" id="conn">연결 중…</span>
+    <button type="button" class="teacher-btn" id="teacherBtn">강사</button>
+    <a class="top-link" href="https://tuilders-cli-setup.vercel.app" target="_blank" rel="noopener">CLI 설치 안내 ↗</a>
+  </div>
 </header>
-<nav class="tabs" role="tablist" aria-label="실습 순서" id="tabs"></nav>
-<div class="work">
-  <main class="lesson" id="lesson" tabindex="-1"></main>
-  <aside class="dock" id="dock" aria-label="실습 사이트와 복사 클립보드"></aside>
-</div>
+<div class="alarm" id="alarm" role="status" aria-live="assertive" hidden></div>
+
+<section id="deck" class="deck" hidden>
+  <div class="stage" id="stage">
+    <img id="slideImg" alt="" width="1600" height="900">
+  </div>
+  <div class="deck-bar">
+    <button type="button" class="nav-btn" id="prevSlide" aria-label="이전 장">←</button>
+    <span class="slide-no" id="slideNo">1 / 1</span>
+    <button type="button" class="nav-btn primary" id="nextSlide" aria-label="다음 장">→</button>
+    <span class="follow" id="followState"></span>
+    <button type="button" class="nav-btn ghost" id="fullBtn">전체 화면</button>
+  </div>
+  <div class="teacher-bar" id="teacherBar" hidden>
+    <span class="t-label">강사 도구</span>
+    <select id="practiceSel" aria-label="시작할 실습"></select>
+    <button type="button" class="nav-btn primary" id="startPractice">실습 시작</button>
+    <button type="button" class="nav-btn" id="endPractice">실습 끝</button>
+    <button type="button" class="nav-btn ghost" id="openAll">전체 공개</button>
+    <span class="t-info" id="teacherInfo"></span>
+  </div>
+</section>
+
+<section id="lab">
+  <nav class="tabs" role="tablist" aria-label="실습 순서" id="tabs"></nav>
+  <div class="work">
+    <main class="lesson" id="lesson" tabindex="-1"></main>
+    <aside class="dock" id="dock" aria-label="실습 사이트와 복사 클립보드"></aside>
+  </div>
+</section>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="app.js"></script>
+<script type="module" src="live.js"></script>
 </body>
 </html>
