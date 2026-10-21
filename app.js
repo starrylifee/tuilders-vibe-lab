@@ -52,6 +52,7 @@ const TABS = [
         <div class="card"><span class="tag">2</span><h3>AI 코딩 도구 하나</h3><p>유료로 구독 중인 서비스의 도구를 고릅니다. Claude → Claude Code, ChatGPT → Codex, Google·구독 없음 → agy.</p></div>
         <div class="card"><span class="tag">3</span><h3>로그인까지</h3><p>연습 폴더에서 한 번 실행해 브라우저 로그인을 마칩니다.</p></div>
       </div>
+      <p class="note">cmd는 시작 메뉴에서 그냥 <b>열기</b>로 엽니다(관리자 권한 필요 없음). 윈도우 노트북 기준이며, 크롬북은 이번 연수에서 다루지 않습니다.</p>
       <a class="big-link" href="https://tuilders-cli-setup.vercel.app" target="_blank" rel="noopener">CLI 설치 안내 페이지 열기 ↗</a>
       <h2>오늘 순서</h2>
       <div class="flow" id="flow"></div>`,
@@ -101,7 +102,7 @@ const TABS = [
       <p class="lead">오늘 만들 앱: <b>학생회장 선거 후보자 체크리스트</b></p>
       ${steps([
         "<a href=\"https://gemini.google.com\" target=\"_blank\" rel=\"noopener\">gemini.google.com</a>에 개인 Gmail 계정으로 들어갑니다.",
-        "모델을 고릅니다. 무료 사용자는 Flash 계열 모델로 작업하세요.",
+        "모델을 고릅니다. 무료 사용자는 <b>빠른 모드</b>로 작업하세요. (메뉴는 ‘빠른 모드 · 사고 · Pro’, 슬라이드 캡처는 예전 화면)",
         "입력창의 <b>도구</b>를 누르고 <b>Canvas</b>를 켭니다.",
         "오른쪽 클립보드의 <b>후보자 체크리스트 프롬프트</b>를 복사해 붙여넣고 보냅니다.",
         "빙빙 돌아가는 동안은 코드를 쓰는 중입니다. 끝나면 <b>미리보기</b>로 눌러 봅니다.",
@@ -118,14 +119,13 @@ const TABS = [
     html: `
       <h1><span class="badge">2단계</span>Gemini API 연결: 삼행시 웹앱</h1>
       ${steps([
-        "<b>사전 작업</b>: <a href=\"https://aistudio.google.com\" target=\"_blank\" rel=\"noopener\">Google AI Studio</a>에서 <b>Get API key</b>로 키를 만들어 둡니다.",
         "Gemini에서 Canvas를 켜고 <b>삼행시 프롬프트</b>를 붙여넣습니다.",
         "완성된 앱에 세 글자를 넣어 봅니다.",
         "코드를 누르고 <kbd>Ctrl</kbd> + <kbd>F</kbd>로 <code>API</code>를 찾아봅니다.",
       ])}
       <div class="cards two">
-        <div class="card"><h3>Canvas가 대신 해 주는 것</h3><p>AI Studio에서 키를 발급한 계정이면 Canvas 앱에 자동으로 연결됩니다. 어떤 프롬프트가 들어 있는지 코드에서 보고 고칠 수 있습니다.</p></div>
-        <div class="card"><h3>직접 넣으면 생기는 일</h3><p>코드에 키를 직접 넣으면(하드코딩) 계정과 상관없이 쓸 수 있지만, 유출되면 곤란합니다. 나노바나나(이미지 생성) API 하드코딩은 유료 티어만 됩니다.</p></div>
+        <div class="card"><h3>Canvas가 대신 해 주는 것</h3><p>Canvas 안에서는 API 키를 따로 받지 않아도 AI가 자동으로 연결됩니다. 어떤 프롬프트가 들어 있는지 코드에서 보고 고칠 수 있습니다.</p></div>
+        <div class="card"><h3>Canvas 밖에서 쓰려면</h3><p>내 사이트·내 앱에서 Gemini를 부르려면 <a href="https://aistudio.google.com" target="_blank" rel="noopener">Google AI Studio</a>에서 API 키를 받습니다. 코드에 키를 직접 넣으면(하드코딩) 유출되면 곤란합니다. 나노바나나(이미지 생성) API 하드코딩은 유료 티어만 됩니다.</p></div>
       </div>
       ${callout("danger", "<b>API 키는 유출 금지.</b> 다른 사람에게 보여 주거나 공개 저장소에 올리지 마세요. 통장에서 돈이 빠져나갈 수도 있습니다.")}`,
     sites: [SITE.aistudio, SITE.gemini],
@@ -170,14 +170,17 @@ const TABS = [
         <div class="card good"><h3>안전</h3>${code("match /teachers/{uid} {\n  allow read, write:\n    if request.auth != null\n    && request.auth.uid == uid;\n}")}<p>로그인한 본인만 읽고 씀</p></div>
       </div>
       ${callout("warn", "Supabase도 같습니다. RLS를 켜지 않으면 anon key로 표 전체가 열립니다. service_role 키는 절대 화면 코드에 넣지 마세요.")}`,
-    sites: [["Firebase 콘솔", "https://console.firebase.google.com"], ["Supabase 대시보드", "https://supabase.com/dashboard"], ["milk-check (GitHub)", "https://github.com/starrylifee/milk-check"],
+    sites: [["Firebase 콘솔", "https://console.firebase.google.com"], ["Supabase 대시보드", "https://supabase.com/dashboard"],
       ["Firestore 보안 규칙", "https://firebase.google.com/docs/firestore/security/get-started"], ["Supabase RLS", "https://supabase.com/docs/guides/database/postgres/row-level-security"], ["Firebase 요금제", "https://firebase.google.com/pricing"]],
     clips: [
       ["CLI 에이전트에게", "Firebase CLI로 Firestore를 연결하고, 규칙 파일은 배포하기 전에 나에게 먼저 보여 줘."],
       ["Firebase CLI 설치", "npm install -g firebase-tools"],
-      ["Firebase 로그인·연결", "firebase login\nfirebase init firestore"],
+      ["Firebase 로그인 (브라우저가 열림)", "firebase login"],
+      ["Firestore 연결 (질문에 답하며 진행)", "firebase init firestore"],
       ["보안 규칙만 배포", "firebase deploy --only firestore:rules"],
-      ["Supabase CLI", "npx supabase login\nnpx supabase link --project-ref <ID>\nnpx supabase db push"],
+      ["Supabase 로그인", "npx supabase login"],
+      ["Supabase 프로젝트 연결 (프로젝트ID는 내 것으로 바꾸기)", "npx supabase link --project-ref 프로젝트ID"],
+      ["Supabase DB 반영", "npx supabase db push"],
     ],
   },
   {
@@ -200,7 +203,7 @@ const TABS = [
     sites: [["나이스 교육정보 개방 포털", "https://open.neis.go.kr"], ["공공데이터포털", "https://www.data.go.kr"], ["표준국어대사전 오픈 API", "https://stdict.korean.go.kr/openapi/openApiInfo.do"],
       ["카카오 지도 API", "https://apis.map.kakao.com"], ["도서관 정보나루", "https://www.data4library.kr"], ["Grownd API 문서", "https://slashpage.com/grownd/api"], ["grownd-minigame (GitHub)", "https://github.com/starrylifee/grownd-minigame"]],
     clips: [
-      ["Grownd 포인트 요청 예시", "POST https://growndcard.com/api/v1/classes/{학급ID}/students/{번호}/points\nX-API-Key: (내 키)\n\n{\n  \"type\": \"reward\",\n  \"points\": 10,\n  \"description\": \"퀴즈 정답\",\n  \"source\": \"MyApp\"\n}"],
+      ["Grownd 포인트 요청 예시 (참고용, cmd 명령 아님)","POST https://growndcard.com/api/v1/classes/{학급ID}/students/{번호}/points\nX-API-Key: (내 키)\n\n{\n  \"type\": \"reward\",\n  \"points\": 10,\n  \"description\": \"퀴즈 정답\",\n  \"source\": \"MyApp\"\n}"],
       ["CLI 에이전트에게", "나이스 교육정보 개방 포털 급식 API로 이번 주 급식을 보여 주는 화면을 만들어 줘. 인증키는 코드에 넣지 말고 어디에 둘지 먼저 알려 줘."],
     ],
   },
@@ -253,15 +256,18 @@ const TABS = [
         <div class="card"><span class="tag">MCP</span><p>미리캔버스(발표 자료) · Google Stitch(화면 시안) · Canva · Drive·Gmail·캘린더 · 법령 MCP · Chrome 브라우저</p></div>
         <div class="card"><span class="tag">CLI</span><p>git · gh(GitHub) · vercel(배포) · firebase · claude·codex·agy · node·npm</p></div>
       </div>
-      ${callout("tip", "<b>헬피코드</b>: 엘리스의 프라이빗 AI 코딩 에이전트. 외부 코딩 에이전트를 막아 둔 환경에서도 쓸 수 있습니다. 수상 팀에게는 JUST VUILD 2026 팀계정 크레딧을 드립니다.")}`,
-    sites: [["헬피코드", "https://helpy.sh"], ["JUST VUILD 2026", "https://just-vuild.onpod.ai/"], ["MCP 공식 사이트", "https://modelcontextprotocol.io"],
+      ${callout("tip", "<b>헬피코드</b>: 엘리스의 프라이빗 AI 코딩 에이전트. 외부 코딩 에이전트를 막아 둔 환경에서도 쓸 수 있습니다. 이번 연수에서는 설치하지 않아도 되며, 안내는 오른쪽 헬피코드 링크에서 봅니다. 수상 팀에게는 JUST VUILD 2026 팀계정 크레딧을 드립니다.")}`,
+    sites: [["헬피코드 안내", "https://helpy.sh"], ["JUST VUILD 2026", "https://just-vuild.onpod.ai/"], ["MCP 공식 사이트", "https://modelcontextprotocol.io"],
       ["미리캔버스 AI 프레젠테이션 MCP", "https://www.miricanvas.com/ko/features/ai-presentation-mcp"], ["Firebase CLI", "https://firebase.google.com/docs/cli"], SITE.setup],
     clips: [
       ["질문 1 · 구조 파악", "이 앱이 어떤 파일로 이루어져 있고, 데이터는 어디에 저장되는지 설명해 줘."],
       ["질문 2 · 점검", "API 키가 화면 코드나 공개 저장소에 드러난 곳이 있는지 찾아 줘."],
       ["질문 3 · 고치고 기록", "고친 내용을 먼저 보여 주고, 내가 확인하면 커밋해 줘."],
-      ["알아 두면 편한 명령", "cd 폴더\ndir\nnpm run dev\ngit status\ngit push"],
-      ["헬피코드 설치 (PowerShell)", "irm https://helpy.sh/install.ps1 | iex"],
+      ["폴더 이동 (폴더이름은 내 것으로)", "cd 폴더이름"],
+      ["파일 목록 보기", "dir"],
+      ["개발 서버 켜기", "npm run dev"],
+      ["바뀐 파일 보기", "git status"],
+      ["올리기·배포 (확인한 뒤에)", "git push"],
       ["미리캔버스 MCP 연결 (Claude Code)", "claude mcp add --transport http miricanvas https://mcp.miricanvas.com/mcp"],
     ],
   },
@@ -298,6 +304,8 @@ function show(i, push = true) {
   const flow = $("#flow");
   if (flow) flow.innerHTML = TABS.slice(1).map((x, k) => `<button class="flow-card" data-go="${k + 1}"><span class="n">${k + 1}</span>${esc(x.label)}</button>`).join("");
   $("#lesson").scrollTop = 0; $("#dock").scrollTop = 0;
+  // 좁은 화면(휴대폰·카톡)은 페이지 전체가 스크롤되므로 맨 위로 올린다
+  if (push && window.matchMedia("(max-width: 820px)").matches) window.scrollTo({ top: 0 });
   const tab = $(`#tabs [data-i="${current}"]`);
   if (tab) tab.scrollIntoView({ block: "nearest", inline: "nearest" });
   if (push) history.replaceState(null, "", "#" + t.id);
