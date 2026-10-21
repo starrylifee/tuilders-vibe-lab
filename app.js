@@ -219,8 +219,18 @@ const TABS = [
       </div>
       ${callout("danger", "<b>API 키를 코드에 넣는 순간</b> F12 개발자도구와 공개 저장소로 새고, 끝없이 불려 요금이 쌓입니다. 키는 서버에서만 부르고, .env에 두고 .gitignore에 추가하고, 사용 한도를 정하고 자동 충전을 끕니다.")}
       ${callout("warn", "학생이 쓰는 앱이면 연령 기준과 비용부터 확인합니다. 30명 × 10번 = 300번 호출. 약관은 바뀔 수 있으니 원문을 다시 확인하세요.")}`,
-    sites: [["OpenAI API 레퍼런스", "https://platform.openai.com/docs/api-reference/chat"], ["OpenAI 18세 미만 안내", "https://developers.openai.com/api/docs/guides/safety-checks/under-18-api-guidance"],
-      ["Anthropic 이용 정책", "https://www.anthropic.com/policy"], ["Gemini API 추가 약관", "https://ai.google.dev/gemini-api/terms"], SITE.aistudio],
+    sites: [
+      ["OpenAI API 문서", "https://developers.openai.com/api/docs"],
+      ["OpenAI 모델 안내", "https://developers.openai.com/api/docs/models"],
+      ["OpenAI API 레퍼런스 (Chat)", "https://developers.openai.com/api/reference/resources/chat"],
+      ["Gemini API 문서", "https://ai.google.dev/gemini-api/docs"],
+      ["Gemini 모델 안내", "https://ai.google.dev/gemini-api/docs/models"],
+      ["Claude 모델 안내", "https://platform.claude.com/docs/en/models/overview"],
+      SITE.aistudio,
+      ["OpenAI 18세 미만 안내", "https://developers.openai.com/api/docs/guides/safety-checks/under-18-api-guidance"],
+      ["Anthropic 이용 정책", "https://www.anthropic.com/policy"],
+      ["Gemini API 추가 약관", "https://ai.google.dev/gemini-api/terms"],
+    ],
     clips: [
       ["CLI 에이전트에게: 키 숨기기", "이 앱에서 API 키가 화면 코드에 들어간 곳을 찾아서, 서버(백엔드)에서만 부르도록 바꿔 줘. 키는 .env에 두고 .gitignore에 추가해 줘. 고치기 전에 계획부터 보여 줘."],
       ["CLI 에이전트에게: 대화 길이 제한", "AI와 주고받는 대화가 10번을 넘으면 오래된 대화는 요약해서 보내도록 바꿔 줘."],
