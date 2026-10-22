@@ -199,10 +199,14 @@ function setView(v, push = true) {
 }
 
 // ── 실시간 상태 받기 ──────────────────────────────────
+let firstSnap = true;
 function applyLive(d) {
   const prev = live, prevPractice = live.practice;
   live = { ...IDLE, ...d };
-  if (!isTeacher && !prev.running && live.running) {          // 강의 시작: 교안으로 가서 따라간다
+  // 잠금이 꺼져 있으면 처음 들어올 때 강사 화면으로 끌고 가지 않는다(강의 중 상태가 남아 있어도 처음 화면부터)
+  const joining = firstSnap; firstSnap = false;
+  if (!LOCKS && joining && !isTeacher) following = false;
+  if (!isTeacher && !prev.running && live.running && (LOCKS || !joining)) {          // 강의 시작: 교안으로 가서 따라간다
     following = true; mySlide = Math.min(live.slide || 1, total());
     setView("deck", false); toast("강의 시작");
     return;
