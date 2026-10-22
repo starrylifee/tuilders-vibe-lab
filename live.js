@@ -1,5 +1,6 @@
 // 교안 보기 + 실습 탭 + 강사 진행 맞추기(Firebase Firestore 실시간)
 // 학생: 강의 중에는 강사가 넘긴 장까지 볼 수 있고 강사가 연 실습 탭만 열린다. 강의 전·후에는 준비(0번) 탭만 열린다.
+// (LOCKS가 false면 잠금 없이 누구나 모든 장·탭을 본다. 강의를 시작하면 따라가기는 그대로 된다.)
 // 강사: 구글 로그인으로 정해 둔 계정이면 넘기기·실습 시작/끝·전체 공개를 할 수 있다. 실제 권한은 Firestore 보안 규칙이 막는다.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, onSnapshot, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -26,6 +27,8 @@ async function sha256(text) {
 }
 const isTeacherUser = async (user) => !!user && !!user.email && TEACHER_HASHES.includes(await sha256(user.email.toLowerCase()));
 const stateRef = doc(db, "live", "state");
+// 잠금 스위치: 강의가 끝나 지금은 꺼 둠. 다음 강의에서 강사 진행에 맞춰 열려면 true로.
+const LOCKS = false;
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -44,12 +47,12 @@ let endedNotice = false;   // 실습이 끝났는데 아직 실습 화면에 있
 let connected = null;
 
 const total = () => SLIDES.length || 1;
-const maxSlide = () => (isTeacher || live.open ? total() : !live.running ? 1 : Math.max(1, Math.min(total(), live.slide || 1)));
-const maxTab = () => (isTeacher || live.open ? TABS.length - 1 : !live.running ? 0 : Math.max(0, live.unlocked || 0));
+const maxSlide = () => (!LOCKS || isTeacher || live.open ? total() : !live.running ? 1 : Math.max(1, Math.min(total(), live.slide || 1)));
+const maxTab = () => (!LOCKS || isTeacher || live.open ? TABS.length - 1 : !live.running ? 0 : Math.max(0, live.unlocked || 0));
 const tabOfSlide = (n) => (SLIDES[n - 1] ? SLIDES[n - 1].tab : "ready");
 
 // ── 실습 화면 ──────────────────────────────────────
-const studentMax = () => (live.open ? TABS.length - 1 : live.running ? Math.max(0, live.unlocked || 0) : 0);
+const studentMax = () => (!LOCKS || live.open ? TABS.length - 1 : live.running ? Math.max(0, live.unlocked || 0) : 0);
 function renderTabs() {
   $("#tabs").innerHTML = TABS.map((t, i) => {
     const locked = i > maxTab();
@@ -113,7 +116,7 @@ function renderDeck() {
   $("#nextSlide").disabled = n >= maxSlide();
   const st = $("#followState");
   if (isTeacher) st.innerHTML = `<b class="g">강사 화면</b>`;
-  else if (live.open) st.innerHTML = "전체 공개 중";
+  else if (live.open || (!LOCKS && !live.running)) st.innerHTML = "전체 공개 중";
   else if (!live.running) st.innerHTML = "강의 전";
   else if (following) st.innerHTML = `<span class="dot"></span>강사 화면 따라가는 중`;
   else st.innerHTML = `따로 보는 중 · <button class="link" id="refollow">강사 화면(${live.slide}장)으로</button>`;
@@ -143,6 +146,7 @@ function renderTeacherBar() {
   $("#runBtn").textContent = live.running ? "강의 끝" : "강의 시작";
   $("#endPractice").disabled = !live.practice;
   $("#openAll").textContent = live.open ? "전체 공개 끄기" : "전체 공개";
+  $("#openAll").hidden = !LOCKS;
   $("#teacherInfo").textContent = !live.running ? "강의 전" : live.practice ? `강의 중 · 실습 ${TABS[TAB_IDX[live.practice]].label}` : "강의 중";
 }
 async function save(data) {
@@ -203,7 +207,7 @@ function applyLive(d) {
     setView("deck", false); toast("강의 시작");
     return;
   }
-  if (!isTeacher && prev.running && !live.running) {          // 강의 끝: 준비 탭만
+  if (LOCKS && !isTeacher && prev.running && !live.running) { // 강의 끝: 준비 탭만
     current = 0; following = true; mySlide = 1; endedNotice = false;
     setView("lab", false); history.replaceState(null, "", "#ready"); toast("강의 끝");
     return;
