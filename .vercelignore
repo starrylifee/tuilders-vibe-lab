@@ -1,0 +1,12 @@
+.git
+.env*
+tools
+tests
+private-source
+working
+README.md
+DESIGN.md
+firestore.rules*
+firebase.json
+.firebaserc
+package.json

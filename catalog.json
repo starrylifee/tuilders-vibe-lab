@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "courses": [
+    {
+      "id": "tuilders",
+      "title": "틸더스 바이브코딩",
+      "subtitle": "내 프로그램에 날개를",
+      "description": "Canvas로 시작해 DATA · API · AI · CLI까지, 만들고 연결하며 배우는 교안입니다.",
+      "label": "JUST VUILD 2026 · 사전연수 6강",
+      "access": "public",
+      "module": "courses/tuilders.js",
+      "pages": 104,
+      "color": "forest",
+      "stateId": "state"
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 .vercel
 .env*
+__pycache__/
+*.pyc
 .DS_Store
 Thumbs.db
-
-.vercel
-.env*
 firestore.rules
+working/
+private-source/

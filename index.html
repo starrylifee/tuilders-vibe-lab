@@ -2,74 +2,48 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>6강 실습 페이지 | 틸더스</title>
-<meta name="description" content="틸더스 6강 '내 프로그램에 날개를' 실습 페이지. 왼쪽은 교안, 오른쪽은 실습 사이트와 복사해서 쓰는 프롬프트·명령어.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>실시간 강의 교안 | 강의 책장</title>
+<meta name="description" content="강의를 한 권씩 꺼내 읽는 책장. 교안과 실습을 같은 흐름으로 보고, 강사와 함께 따라갑니다.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="6강 실습 페이지 | 틸더스">
-<meta property="og:description" content="Canvas 실습부터 DATA·API·AI·CLI까지. 실습 사이트와 프롬프트를 한곳에서 복사하세요.">
+<meta property="og:title" content="실시간 강의 교안 | 강의 책장">
+<meta property="og:description" content="교안과 실습을 한 흐름으로. 틸더스 바이브코딩 교안은 언제든 열어 볼 수 있습니다.">
 <meta property="og:image" content="https://tuilders-vibe-lab.vercel.app/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="틸더스 6강 실습 페이지 — 교안과 실습 사이트·복사 클립보드">
-<meta property="og:site_name" content="틸더스">
-<meta property="og:locale" content="ko_KR">
-<meta property="og:url" content="https://tuilders-vibe-lab.vercel.app/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://tuilders-vibe-lab.vercel.app/og.png">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
-  <div class="brand"><span class="prompt">&gt;_</span> Tuilders <span class="brand-sub">6강 · 내 프로그램에 날개를</span></div>
-  <div class="seg" role="group" aria-label="화면 고르기">
-    <button type="button" data-view="deck" aria-pressed="false">교안</button>
-    <button type="button" data-view="lab" aria-pressed="true">실습</button>
-  </div>
-  <div class="teacher-bar" id="teacherBar" hidden>
-    <button type="button" class="t-btn run" id="runBtn">강의 시작</button>
-    <select id="practiceSel" aria-label="시작할 실습"></select>
-    <button type="button" class="t-btn go" id="startPractice">실습 시작</button>
-    <button type="button" class="t-btn" id="endPractice">실습 끝</button>
-    <button type="button" class="t-btn" id="openAll">전체 공개</button>
-    <span class="t-info" id="teacherInfo"></span>
-  </div>
-  <div class="top-right">
-    <span class="conn" id="conn">연결 중…</span>
-    <button type="button" class="teacher-btn" id="teacherBtn">강사</button>
-    <a class="top-link" href="https://tuilders-cli-setup.vercel.app" target="_blank" rel="noopener">CLI 설치 안내 ↗</a>
-  </div>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="site-header">
+  <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">|||</span> 실시간 강의 교안</a>
+  <div class="header-actions"><span id="connection" class="connection" hidden></span><button id="teacherLogin" class="quiet">강사 로그인</button></div>
 </header>
-<div class="alarm" id="alarm" role="status" aria-live="assertive" hidden></div>
-
-<section id="deck" class="deck" hidden>
-  <div class="stage" id="stage">
-    <img id="slideImg" alt="" width="1600" height="900">
-  </div>
-  <div class="deck-bar">
-    <button type="button" class="nav-btn" id="prevSlide" aria-label="이전 장">←</button>
-    <span class="slide-no" id="slideNo">1 / 1</span>
-    <button type="button" class="nav-btn primary" id="nextSlide" aria-label="다음 장">→</button>
-    <span class="follow" id="followState"></span>
-    <button type="button" class="nav-btn ghost" id="fullBtn">전체 화면</button>
-  </div>
-</section>
-
-<section id="lab">
-  <nav class="tabs" role="tablist" aria-label="실습 순서" id="tabs"></nav>
-  <div class="work">
-    <main class="lesson" id="lesson" tabindex="-1"></main>
-    <aside class="dock" id="dock" aria-label="실습 사이트와 복사 클립보드"></aside>
-  </div>
-</section>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="app.js"></script>
-<script type="module" src="live.js"></script>
+<main id="main" tabindex="-1">
+  <section id="library" class="library" aria-labelledby="libraryTitle">
+    <div class="shelf-heading"><h1 id="libraryTitle">책장 <span id="courseCount"></span></h1><label class="search-label" hidden><span class="sr-only">교안 검색</span><input id="courseSearch" type="search" placeholder="교안 찾기" autocomplete="off"></label></div>
+    <div id="books" class="books" aria-live="polite"><p>책장을 불러오고 있습니다.</p></div>
+  </section>
+  <section id="reader" hidden>
+    <div class="reader-toolbar"><a class="back-link" href="#">← 책장</a><div class="reader-heading"><strong id="courseTitle"></strong><span id="readerStatus">자유롭게 읽기</span></div><button id="outlineToggle" class="quiet" aria-expanded="false" aria-controls="outline">목차</button><button id="previewToggle" class="quiet" aria-expanded="false" aria-controls="previewPanel">연수자 화면</button></div>
+    <div id="teacherControls" class="teacher-controls" hidden><span class="teacher-label">강사 진행</span><button id="broadcastToggle" class="primary">강의 시작</button><p>강의 중에는 현재 읽는 위치가 연수자에게 전달됩니다.</p></div>
+    <div id="followBar" class="follow-bar" hidden><span id="followMessage"></span><button id="followToggle" class="quiet">강사 따라가기</button></div>
+    <div class="reader-layout">
+      <nav id="outline" class="outline" aria-label="교안 목차"></nav>
+      <div id="readingColumn" class="reading-column"><div id="courseIntro" class="course-intro"></div><div id="stream" class="stream"></div><div class="course-end"><p>끝까지 함께하셨습니다.</p><a class="primary button-link" href="#">책장으로 돌아가기</a></div></div>
+      <aside id="resourceDock" class="resource-dock" aria-label="현재 내용의 사이트와 복사 자료"></aside>
+    </div>
+    <div class="reading-nav"><button id="previous" class="quiet" aria-label="이전 내용">← 이전</button><span id="position" aria-live="polite"></span><button id="next" class="quiet" aria-label="다음 내용">다음 →</button><button id="toTop" class="quiet">맨 위로 ↑</button></div>
+  </section>
+</main>
+<aside id="previewPanel" class="preview-panel" aria-labelledby="previewTitle" hidden><div class="preview-header"><div><strong id="previewTitle">연수자 화면 <span class="preview-ratio">16:9</span></strong><p id="previewStatus">강사 따라가기 기준</p></div><div class="preview-actions"><button id="previewExpand" class="quiet" aria-pressed="false">크게</button><button id="previewClose" class="quiet" aria-label="연수자 화면 닫기">닫기</button></div></div><div id="previewViewport" class="preview-viewport"><iframe id="previewFrame" title="16대9 연수자 화면 미리보기" tabindex="-1"></iframe></div></aside>
+<dialog id="passwordDialog" aria-labelledby="passwordTitle"><form id="passwordForm"><p class="eyebrow">비밀번호 교안</p><h2 id="passwordTitle">교안 입장</h2><p id="passwordDescription"></p><label for="coursePassword">안내받은 비밀번호</label><input id="coursePassword" type="password" autocomplete="current-password" required enterkeyhint="go"><p id="passwordError" class="error" role="alert"></p><div class="dialog-actions"><button type="button" id="passwordCancel" class="quiet">취소</button><button type="submit" id="passwordSubmit" class="primary">교안 열기</button></div></form></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="zoomDialog" aria-label="교안 크게 보기"><div class="zoom-toolbar"><strong id="zoomTitle"></strong><button id="zoomClose" class="quiet">닫기</button></div><div id="zoomContent" class="zoom-content"></div></dialog>
+<noscript><p class="error">교안의 실습과 페이지 이동을 사용하려면 JavaScript를 켜 주세요.</p></noscript>
+<script type="module" src="reader.js"></script>
 </body>
 </html>
