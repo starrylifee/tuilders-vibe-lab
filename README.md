@@ -2,7 +2,9 @@
 
 강의마다 직접 만든 웹 교안을 한 책장에 모은 사이트입니다. PDF 업로드·자동 변환 플랫폼이 아닙니다.
 
-- 배포: https://tuilders-vibe-lab.vercel.app (기존 주소 유지)
+- 대표 주소: https://live-lesson-book.vercel.app
+- 기존 주소: https://tuilders-vibe-lab.vercel.app (계속 사용 가능)
+- 두 주소는 같은 Vercel 프로젝트의 운영 배포에 연결되어, 푸시하면 함께 갱신됩니다. Firebase 강사 로그인 허용 주소에도 둘 다 등록되어 있습니다.
 - 정적 HTML/CSS/JS, 빌드 없음. `npm run dev`로 미리보기.
 - 틸더스는 상시 공개. 교안과 실습을 순서대로 읽고, 오른쪽에서 필요한 사이트와 복사 자료를 사용합니다.
 - 구글 강사 로그인 / Firestore 진행 전달은 기존 권한을 사용합니다. 새 교안은 `live/course-교안ID`로 진행 상태를 분리합니다.
